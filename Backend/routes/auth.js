@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const JWT = require('jsonwebtoken');
+const verifyToken = require('../middleware/middleware')
 
 
 router.post('/register', async (req, res) => {
@@ -47,11 +48,16 @@ router.post('/login', async (req, res) => {
       {expiresIn: '1hr'}
     )
 
-    res.status(200).json({message: 'Login Successful'});
+    res.status(200).json({message: 'Login Successful', token});
 
   } catch (err) {
     res.status(500).json({error: 'Server error', details: err});
   }
+})
+
+
+router.get('/protected', verifyToken, (req, res) => {
+  res.json({ message: 'You made it to a protected route!', user: req.user });
 })
 
 module.exports = router;

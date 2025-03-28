@@ -1,5 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const webpack = require("webpack");
+const dotenv = require("dotenv").config(); // ✅ load .env file
 
 module.exports = {
   entry: "./src/renderer/index.js",
@@ -28,6 +30,10 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "./public/index.html",
+    }),
+    new webpack.DefinePlugin({
+      // ✅ Inject the env variable
+      "process.env.API_BASE_URL": JSON.stringify(process.env.API_BASE_URL),
     }),
   ],
   devServer: {
