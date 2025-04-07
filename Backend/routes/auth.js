@@ -55,7 +55,7 @@ router.post('/login', async (req, res) => {
   }
 })
 
-
+ 
 router.get('/protected', verifyToken, (req, res) => {
   res.json({ message: 'You made it to a protected route!', user: req.user });
 })
